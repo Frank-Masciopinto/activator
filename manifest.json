@@ -1,15 +1,29 @@
 {
+  "manifest_version": 2,
   "name": "Ticket Relay - Activator",
   "version": "1.00",
   "description": "Activate Ticket Relay Chrome Plugin",
-  "manifest_version": 3,
   "permissions": ["management"],
-  "icons": { "48": "Images/48.png", "128": "Images/128.png" },
-  "action": {
+  "icons": {
+    "48": "Images/48.png",
+    "128": "Images/128.png"
+  },
+  "background": {
+    "scripts": ["script/background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": {
+      "48": "Images/48.png",
+      "128": "Images/128.png"
+    },
     "default_title": "Activator",
     "default_popup": "html/popup.html"
   },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' https://connect.facebook.net/; object-src 'self';"
-  }
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["script/constants.js"]
+    }
+  ]
 }

@@ -1,6 +1,8 @@
-console.log("Activator Plugin -> popup.js injected");
+"use strict";
 
+// Function to toggle the enabled state of an extension
 function toggleExtension(extensionId) {
+  // Retrieve extension information
   chrome.management.get(extensionId, function (extensionInfo) {
     var isEnabled = extensionInfo.enabled;
 
@@ -13,9 +15,9 @@ function toggleExtension(extensionId) {
         setTimeout(function () {
           chrome.management.setEnabled(extensionId, true, function () {
             console.log("Extension " + extensionId + " re-enabled");
-            alert("Ticket Relay Extension Activated");
+            // alert("Ticket Relay Extension Activated");
           });
-        }, 1000); // Wait for 1 second before re-enabling the extension
+        }, 500); // Wait for 0.5 second before re-enabling the extension
       });
     } else {
       // Enable the extension if it's currently disabled
@@ -32,7 +34,6 @@ chrome.management.getAll(function (extensions) {
   // Iterate through the list of installed extensions
   for (let i = 0; i < extensions.length; i++) {
     let extension = extensions[i];
-
     // Check if the extension matches the desired name or any other criteria
     if (extension.name === "Ticket Avail") {
       extensionId = extension.id;
@@ -43,9 +44,10 @@ chrome.management.getAll(function (extensions) {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  var toggleButton = document.getElementById("toggle-button");
-  toggleButton.addEventListener("click", function () {
+// Add a listener for the onStartup event
+chrome.runtime.onStartup.addListener(function () {
+  // Toggle the extension after a delay
+  setTimeout(() => {
     toggleExtension(extensionId);
-  });
+  }, 500); // Wait for 500 milliseconds (0.5 seconds) before toggling the extension
 });
